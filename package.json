@@ -1,0 +1,38 @@
+{
+  "name": "TODO",
+  "version": "1.0.0",
+  "description": ">",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chaitra-29/TODO.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chaitra-29/TODO/issues"
+  },
+  "homepage": "https://github.com/Chaitra-29/TODO#readme",
+  "dependencies": {
+    "@babel/cli": "^7.10.4",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.5.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.3",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "uuid": "^8.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.4",
+    "@babel/node": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "babel-cli": "^6.26.0",
+    "nodemon": "^1.19.4"
+  }
+}
