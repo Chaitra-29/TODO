@@ -9,17 +9,13 @@ A Single HTML page displaying the TO DO List. With below features.
 
 This application has two parts to it: 
 
-1. Frontend : 
+## Frontend : 
   Developed using React js, Bootstrap for css and Node.js and other nuances of React and html. 
   
-2. Backend :
+## Backend :
   Developed using Express.js, Node.js as backed server. 
 
 This application Supports below TODO list operations. 
-
-TODO List :
- 1. Create a TODO list
- 2. Delete TODO list 
 
 TODO items :
  1. Create TODO items 
