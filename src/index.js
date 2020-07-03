@@ -10,11 +10,13 @@ let lists = [
         items:[
             {
                 id:1,
-                content:"get milk"
+                content:"get milk",
+                priority:1
             },
             {
                 id:2,
-                content:"get butter"
+                content:"get butter",
+                priority:2
             }
         ]
     },{
@@ -23,11 +25,13 @@ let lists = [
         items:[
             {
                 id:1,
-                content:"get pencil"
+                content:"get pencil",
+                priority:1
             },
             {
                 id:2,
-                content:"fix net"
+                content:"fix net",
+                priority:2
             }
         ]
     }
@@ -37,60 +41,6 @@ app.use(express.json());
 app.use(cors());
 app.use("/static",express.static("public"))
 app.use(express.urlencoded({ extended: true }));
-
-app.set("view engine", "ejs");
-
-//GET Method
-app.get('/',(req, res) => {
-    res.render('index.ejs',{list});
-});
-//POST Method
-app.post('/',(req, res) => {
-    if(req.body.content !== ""){
-        const id = list.length+1;
-        const item = {
-            "id":id,
-            "content": req.body.content 
-        };
-        list.push(item);
-    }
-    res.redirect("/");
-});
-//EDIT Method
-app.route('/edit/:id').get((req, res) => {
-    const id = req.params.id;
-    res.render('edit.ejs',{ list: list, idTask: id });
-    
-}).post((req, res) => {
-    if(req.body.content ){
-        const id = req.params.id;
-        list.map((item) =>{
-            if(item.id == id){
-                item.content = req.body.content 
-            }
-        });
-    }
-    res.redirect("/");
-});
-//DELETE Method
-app.route('/remove/:id').get((req, res) => {
-    const id = req.params.id;
-    const index = list.findIndex((item) =>{
-        return (item.id == id)
-    })
-    if(index > -1){
-        list.splice(index,1);
-    }else{
-        res.send(500, "Error!!");
-    }
-    res.redirect("/");
-});
-
-
-
-
-
-
 //New APIs
 app.get('/api/lists',(req, res) => {
     res.send(lists);
@@ -123,7 +73,8 @@ app.post('/api/lists/:id/items',(req, res) => {
         const itemId = lists[index].items.length + 1;
         const item = {
             id:itemId,
-            content: req.body.content 
+            content: req.body.content,
+            priority: req.body.priority
         };
         lists[index].items.push(item);
     }
@@ -137,7 +88,8 @@ app.put('/api/edit/lists/:lid/items/:id', (req, res) => {
         if(list.id == lid){
             list.items.map((item)=>{
                 if(item.id == id){
-                    item.content = req.body.content 
+                    item.content = req.body.content;
+                    item.priority= req.body.priority;
                 }
             })
         }
