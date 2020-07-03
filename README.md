@@ -25,7 +25,33 @@ TODO items :
  How to run:
 
 A. Pre-requisites lib to get started. System must have the below software installed before we get started.
-  1. Install Node.js
+
+
+1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
+    ```
+     # Install nvm, node and npm:
+     https://github.com/creationix/nvm#install-script
+    ```
+2. Install your dependencies for server-side 
+
+    ```
+    cd path/to/TODO; npm install
+    ```
+
+3. Start server
+
+    ```
+    npm run start
+    ```
+4. Install your dependencies for client
+   ```
+    cd path/to/TODO/client; npm install
+    ```
+4. Start app
+     ```
+    npm run start
+    ```
+ 
   
  
  
