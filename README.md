@@ -47,11 +47,13 @@ A. Pre-requisites lib to get started. System must have the below software instal
    ```
     cd path/to/TODO/client; npm install
     ```
-4. Start app
+5. Start app
      ```
     npm run start
     ```
- 
-  
- 
+6. To Test  
+    ```
+    cd path/to/TODO/client; npm run test
+    ```
+
  
