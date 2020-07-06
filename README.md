@@ -56,4 +56,14 @@ A. Pre-requisites lib to get started. System must have the below software instal
     cd path/to/TODO/client; npm run test
     ```
 
+ #Future enhancements
  
+ 1. Creation of List of TODO-Lists
+
+ 2. Enable multi-user
+ 
+ 3. Persists TODO based on user in database
+
+ 4. Attach calendar events
+ 
+ 5. Enable accessibilty 
