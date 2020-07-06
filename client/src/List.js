@@ -28,6 +28,7 @@ class List extends Component {
                 case 39:
                     this.next();
                     break;
+                default: return;
             }
         }.bind(this));
     }
@@ -47,6 +48,7 @@ class List extends Component {
                     if(Number(this.props.match.params.id) === 2 )
                     this.next();
                     break;
+                default: return;
             }
         }.bind(this));
     }
