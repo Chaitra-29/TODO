@@ -1,11 +1,10 @@
 import React from "react";
-import List from "./List";
+import List from '../List';
 import { render, screen } from "@testing-library/react";
 import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
 configure({ adapter: new Adapter() });
-
 test("callAPI is called", () => {
   const response = {
     id: 1,
