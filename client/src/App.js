@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import List from "./List";
-import { BrowserRouter as Router,
+import {
+  BrowserRouter as Router,
   Route,
-  Link} from "react-router-dom";
+  Link
+} from "react-router-dom";
 
 class App extends Component {
   constructor(props) {
@@ -12,19 +14,19 @@ class App extends Component {
 
   callAPI() {
     fetch("http://localhost:9000/api/lists")
-        .then(response => response.json())
-        .then((data) => {
-            this.setState({ apiResponse: data })
-        })
+      .then(response => response.json())
+      .then((data) => {
+        this.setState({ apiResponse: data })
+      })
   }
 
   componentDidMount() {
     this.callAPI();
   }
 
-  renderLists(){
-    if(this.state.apiResponse !== ""){
-      return this.state.apiResponse.map((list,index)=>{
+  renderLists() {
+    if (this.state.apiResponse !== "") {
+      return this.state.apiResponse.map((list, index) => {
         return <li className="list-group-item d-flex justify-content-between align-items-center" key={index} >
           <Link to={`/${list.id}`} >{list.name}</Link>
         </li>
@@ -36,17 +38,17 @@ class App extends Component {
       <div>
         <div className="container">
           <div className="row justify-content-center align-items-center">
-              <div className="col-md-6">
-                  <div className="col-md-12">
-                  <h3 className="text-center text-info pt-5">TODO</h3>
-                    <Router>
-                      <ul className="list-group">
-                          {this.renderLists()}
-                      </ul>
-                        <Route path={"/:id"} component={List}></Route> 
-                    </Router>
-                  </div>
+            <div className="col-md-6">
+              <div className="col-md-12">
+                <h3 className="text-center text-info pt-5">TODO</h3>
+                <Router>
+                  <ul className="list-group">
+                    {this.renderLists()}
+                  </ul>
+                  <Route path={"/:id"} component={List}></Route>
+                </Router>
               </div>
+            </div>
           </div>
         </div>
       </div>

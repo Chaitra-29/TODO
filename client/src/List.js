@@ -8,8 +8,8 @@ class List extends Component {
         this.state = {
             apiResponse: '',
             toDoItem: '',
-            priority:'',
-            lid:'' ,
+            priority: '',
+            lid: '',
             editItem: false,
             editItemContent: ''
         };
@@ -27,44 +27,44 @@ class List extends Component {
                 });
         }
     }
-    previous(){
+    previous() {
         this.props.history.goBack();
-        this.callAPI(Number(this.props.match.params.id)-1)
+        this.callAPI(Number(this.props.match.params.id) - 1)
     }
-    
-    next(){
-        const nextPage = Number(this.props.match.params.id)+1;
-        this.props.history.push(nextPage+'')
+
+    next() {
+        const nextPage = Number(this.props.match.params.id) + 1;
+        this.props.history.push(nextPage + '')
         this.callAPI(nextPage)
     }
 
     createItem() {
-        if(this.state.toDoItem !== ''){
-        fetch('http://localhost:9000/api/lists/' + this.state.lid + '/items', {
-            method: 'post',
-            body: JSON.stringify({
-                content: this.state.toDoItem.trim(),
-                priority:this.state.priority
-            }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8'
-            }
-        }).then(response => response.json())
-            .then((data) => {
-                this.setState({ 
-                    apiResponse: data,
-                    toDoItem: '',
-                    priority:'' 
-                });
-            })
+        if (this.state.toDoItem !== '') {
+            fetch('http://localhost:9000/api/lists/' + this.state.lid + '/items', {
+                method: 'post',
+                body: JSON.stringify({
+                    content: this.state.toDoItem.trim(),
+                    priority: this.state.priority
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                }
+            }).then(response => response.json())
+                .then((data) => {
+                    this.setState({
+                        apiResponse: data,
+                        toDoItem: '',
+                        priority: ''
+                    });
+                })
         }
     }
-    
+
     deleteItems() {
         let checkboxes = document.getElementsByName('checkbox');
         let ids = [];
         checkboxes.forEach((box) => {
-            if(box.checked){
+            if (box.checked) {
                 ids.push(Number(box.id));
             }
         });
@@ -78,9 +78,9 @@ class List extends Component {
             }
         }).then(response => response.json())
             .then((data) => {
-                this.setState({ 
+                this.setState({
                     apiResponse: data,
-                    checked: false  
+                    checked: false
                 });
                 checkboxes.forEach((box) => {
                     box.checked = false;
@@ -102,7 +102,7 @@ class List extends Component {
         })
     }
 
-    onChecked(event){
+    onChecked(event) {
         this.setState({
             checked: event.target.checked,
         })
@@ -111,26 +111,26 @@ class List extends Component {
     renderItems() {
         if (this.state.apiResponse !== '') {
             const items = this.state.apiResponse.items;
-            for(let i=0;i < items.length;i++){
-                for(let j=i+1;j<items.length;j++){
-                    if(items[i].priority > items[j].priority){
+            for (let i = 0; i < items.length; i++) {
+                for (let j = i + 1; j < items.length; j++) {
+                    if (items[i].priority > items[j].priority) {
                         let tmp = items[i];
                         items[i] = items[j];
                         items[j] = tmp;
                     }
-                } 
+                }
             }
-            return items.map((element,index) => {
+            return items.map((element, index) => {
                 return <li className='list-group-item' key={index}>
                     <input type='checkbox' className='form-check-input checkbox' name='checkbox' id={element.id} onClick={this.onChecked.bind(this)}></input>
-                    <ListItem listId={this.state.lid} text={element.content} id={element.id} priority={element.priority}/> 
+                    <ListItem listId={this.state.lid} text={element.content} id={element.id} priority={element.priority} />
                 </li >
             });
         }
     }
 
 
-    
+
 
     render() {
         this.callAPI(this.props.match.params.id);
@@ -142,8 +142,8 @@ class List extends Component {
                         <span className="input-group-text" id="">Item and Priority</span>
                     </div>
                     <input type='text' className='form-control' name='content' value={this.state.toDoItem} onChange={this.handleChange.bind(this)} />
-                    <input type="text" className="form-control" value={this.state.priority} onChange={this.handleItemChange.bind(this)}/>
-                    
+                    <input type="text" className="form-control" value={this.state.priority} onChange={this.handleItemChange.bind(this)} />
+
                     <div className='input-group-append'>
                         <input type='button' value='add' className='btn btn-info btn-md' onClick={this.createItem.bind(this)} />
                     </div>
@@ -152,11 +152,11 @@ class List extends Component {
                 <ul className='list-group'>
                     {this.renderItems()}
                 </ul>
-                <input type='button' value='delete' className='btn btn-info btn-md delete-button btn-danger' style={this.state.checked ? undefined : {display:"none"}} onClick={this.deleteItems.bind(this)} />
+                <input type='button' value='delete' className='btn btn-info btn-md delete-button btn-danger' style={this.state.checked ? undefined : { display: "none" }} onClick={this.deleteItems.bind(this)} />
 
                 <div className="float-right navigate-div">
-                    <button className ="btn btn-info btn-md navigate" onClick={this.previous.bind(this)} style = {Number(this.props.match.params.id) === 1  ? {display:"none"} : undefined}>Previous</button>
-                    <button className ="btn btn-info btn-md navigate" onClick={this.next.bind(this)} style = {Number(this.props.match.params.id) === 2? {display:"none"} : {marginRight:"1rem"}}>Next</button>
+                    <button className="btn btn-info btn-md navigate" onClick={this.previous.bind(this)} style={Number(this.props.match.params.id) === 1 ? { display: "none" } : undefined}>Previous</button>
+                    <button className="btn btn-info btn-md navigate" onClick={this.next.bind(this)} style={Number(this.props.match.params.id) === 2 ? { display: "none" } : { marginRight: "1rem" }}>Next</button>
                 </div>
             </div>
         );

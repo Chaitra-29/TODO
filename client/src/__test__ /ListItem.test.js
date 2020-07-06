@@ -7,7 +7,7 @@ configure({ adapter: new Adapter() });
 
 test("edit", () => {
   const editItemClick = jest.spyOn(ListItem.prototype, "editItemClick");
-  const wrapper = shallow(<ListItem listId='1' text='listitem1' id='1' priority='1'/> );
+  const wrapper = shallow(<ListItem listId='1' text='listitem1' id='1' priority='1' />);
   expect(wrapper.find("button").at(0).simulate("click"));
   expect(editItemClick).toHaveBeenCalledTimes(1);
 });
@@ -33,7 +33,7 @@ test("editItemClick and editItem button", () => {
   const mockFetchPromise = Promise.resolve({
     json: () => mockJsonPromise,
   });
-  jest.spyOn(ListItem.prototype, "editItem").mockImplementation(() => {})
+  jest.spyOn(ListItem.prototype, "editItem").mockImplementation(() => { })
   jest.spyOn(global, "fetch").mockImplementation(() => mockFetchPromise);
   const editItemClick = jest.spyOn(ListItem.prototype, "editItemClick");
   const wrapper = shallow(<ListItem match={{ params: { id: 1 } }} />);
