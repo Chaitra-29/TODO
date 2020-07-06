@@ -1,11 +1,51 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
 import List from "./List";
+import { render, screen } from "@testing-library/react";
+import { configure, shallow } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+
+configure({ adapter: new Adapter() });
 
 test("callAPI is called", () => {
+  const response = {
+    id: 1,
+    name: "groceries",
+    items: [
+      {
+        id: 1,
+        content: "get milk",
+        priority: 1,
+      },
+      {
+        id: 2,
+        content: "get butter",
+        priority: 2,
+      },
+    ],
+  };
+  const mockJsonPromise = Promise.resolve(response);
+  const mockFetchPromise = Promise.resolve({
+    json: () => mockJsonPromise,
+  });
+  jest.spyOn(global, "fetch").mockImplementation(() => mockFetchPromise);
   const callAPI = jest.spyOn(List.prototype, "callAPI");
-  render(<List match={{ params: { id: 1 } }} />);
+  const wrapper = shallow(<List match={{ params: { id: 1 } }} />);
   expect(callAPI).toHaveBeenCalledTimes(1);
+});
+
+test("previous and next button", () => {
+  const goBack = jest.fn();
+  const push = jest.fn();
+  const wrapper = shallow(
+    <List
+      match={{ params: { id: 0 } }}
+      history={{ goBack: goBack, push: push }}
+    />
+  );
+  expect(wrapper.find("button").at(0).simulate("click"));
+  expect(goBack).toHaveBeenCalledTimes(1);
+  expect(wrapper.find("button").at(1).simulate("click"));
+  expect(push).toHaveBeenCalledTimes(1);
 });
 
 test("dom rendered properly", () => {
@@ -20,7 +60,10 @@ test("dom rendered properly", () => {
           >
             <h3
               class="text-center text-info pt-5"
-            />
+            >
+              List 
+              1
+            </h3>
             <div
               class="input-group mb-3"
             >
@@ -36,12 +79,12 @@ test("dom rendered properly", () => {
               </div>
               <input
                 class="form-control"
+                name="content"
                 type="text"
                 value=""
               />
               <input
                 class="form-control"
-                name="content"
                 type="text"
                 value=""
               />
@@ -59,11 +102,27 @@ test("dom rendered properly", () => {
               class="list-group"
             />
             <input
-              class="btn btn-info btn-md delete-button"
+              class="btn btn-info btn-md delete-button btn-danger"
               style="display: none;"
               type="button"
               value="delete"
             />
+            <div
+              class="float-right navigate-div"
+            >
+              <button
+                class="btn btn-info btn-md navigate"
+                style="display: none;"
+              >
+                Previous
+              </button>
+              <button
+                class="btn btn-info btn-md navigate"
+                style="margin-right: 1rem;"
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       </body>,
@@ -73,7 +132,10 @@ test("dom rendered properly", () => {
         >
           <h3
             class="text-center text-info pt-5"
-          />
+          >
+            List 
+            1
+          </h3>
           <div
             class="input-group mb-3"
           >
@@ -89,12 +151,12 @@ test("dom rendered properly", () => {
             </div>
             <input
               class="form-control"
+              name="content"
               type="text"
               value=""
             />
             <input
               class="form-control"
-              name="content"
               type="text"
               value=""
             />
@@ -112,11 +174,27 @@ test("dom rendered properly", () => {
             class="list-group"
           />
           <input
-            class="btn btn-info btn-md delete-button"
+            class="btn btn-info btn-md delete-button btn-danger"
             style="display: none;"
             type="button"
             value="delete"
           />
+          <div
+            class="float-right navigate-div"
+          >
+            <button
+              class="btn btn-info btn-md navigate"
+              style="display: none;"
+            >
+              Previous
+            </button>
+            <button
+              class="btn btn-info btn-md navigate"
+              style="margin-right: 1rem;"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>,
       "debug": [Function],

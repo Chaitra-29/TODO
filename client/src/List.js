@@ -15,17 +15,27 @@ class List extends Component {
         };
     }
 
-    callAPI() {
-        if (this.state.lid !== this.props.match.params.id) {
-            fetch('http://localhost:9000/api/lists/' + this.props.match.params.id)
+    callAPI(pageNum) {
+        if (this.state.lid !== pageNum) {
+            fetch('http://localhost:9000/api/lists/' + pageNum)
                 .then(response => response.json())
                 .then((data) => {
                     this.setState({
                         apiResponse: data,
-                        lid: this.props.match.params.id
+                        lid: pageNum
                     })
                 });
         }
+    }
+    previous(){
+        this.props.history.goBack();
+        this.callAPI(Number(this.props.match.params.id)-1)
+    }
+    
+    next(){
+        const nextPage = Number(this.props.match.params.id)+1;
+        this.props.history.push(nextPage+'')
+        this.callAPI(nextPage)
     }
 
     createItem() {
@@ -113,7 +123,7 @@ class List extends Component {
             return items.map((element,index) => {
                 return <li className='list-group-item' key={index}>
                     <input type='checkbox' className='form-check-input checkbox' name='checkbox' id={element.id} onClick={this.onChecked.bind(this)}></input>
-                    <ListItem listId={this.state.lid} listName={this.props.match.params.listName} text={element.content} id={element.id} priority={element.priority}/> 
+                    <ListItem listId={this.state.lid} text={element.content} id={element.id} priority={element.priority}/> 
                 </li >
             });
         }
@@ -123,10 +133,10 @@ class List extends Component {
     
 
     render() {
-        this.callAPI();
+        this.callAPI(this.props.match.params.id);
         return (
             <div style={{ paddingTop: '2rem' }} >
-                <h3 className="text-center text-info pt-5">{this.props.match.params.listName}</h3>
+                <h3 className="text-center text-info pt-5">List {this.props.match.params.id}</h3>
                 <div className='input-group mb-3'>
                     <div className="input-group-prepend">
                         <span className="input-group-text" id="">Item and Priority</span>
@@ -142,7 +152,12 @@ class List extends Component {
                 <ul className='list-group'>
                     {this.renderItems()}
                 </ul>
-                <input type='button' value='delete' className='btn btn-info btn-md delete-button' style={this.state.checked ? undefined : {display:"none"}} onClick={this.deleteItems.bind(this)} />
+                <input type='button' value='delete' className='btn btn-info btn-md delete-button btn-danger' style={this.state.checked ? undefined : {display:"none"}} onClick={this.deleteItems.bind(this)} />
+
+                <div className="float-right navigate-div">
+                    <button className ="btn btn-info btn-md navigate" onClick={this.previous.bind(this)} style = {Number(this.props.match.params.id) === 1  ? {display:"none"} : undefined}>Previous</button>
+                    <button className ="btn btn-info btn-md navigate" onClick={this.next.bind(this)} style = {Number(this.props.match.params.id) === 2? {display:"none"} : {marginRight:"1rem"}}>Next</button>
+                </div>
             </div>
         );
     }

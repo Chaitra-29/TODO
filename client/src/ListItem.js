@@ -5,7 +5,6 @@ class ListItem extends Component {
         super(props);
         this.state = {
             lid: props.listId,
-            lname:props.listName,
             text:props.text,
             priority:props.priority,
             id:props.id,
@@ -18,7 +17,6 @@ class ListItem extends Component {
     static getDerivedStateFromProps(props){
         return {
             lid: props.listId,
-            lname:props.listName,
             text:props.text,
             priority:props.priority,
             id:props.id
@@ -48,7 +46,7 @@ class ListItem extends Component {
                 'Content-type': 'application/json; charset=UTF-8'
             }
         }).then(response => response.json())
-            .then((data) => {
+            .then(() => {
                 this.setState({ 
                     text:this.state.editItemContent,
                     priority:this.state.editPriority,
@@ -92,5 +90,4 @@ class ListItem extends Component {
         )
     }
 }
-
 export default ListItem;

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import List from "./List";
 import { BrowserRouter as Router,
-  Switch,
   Route,
   Link} from "react-router-dom";
 
@@ -27,7 +26,7 @@ class App extends Component {
     if(this.state.apiResponse !== ""){
       return this.state.apiResponse.map((list,index)=>{
         return <li className="list-group-item d-flex justify-content-between align-items-center" key={index} >
-          <Link to={`/${list.name}/${list.id}`} >{list.name}</Link>
+          <Link to={`/${list.id}`} >{list.name}</Link>
         </li>
       })
     }
@@ -44,12 +43,7 @@ class App extends Component {
                       <ul className="list-group">
                           {this.renderLists()}
                       </ul>
-                      <Switch>
-                        
-                        <Route path={"/:listName/:id"} component={List}>
-                          
-                        </Route> 
-                      </Switch>
+                        <Route path={"/:id"} component={List}></Route> 
                     </Router>
                   </div>
               </div>
