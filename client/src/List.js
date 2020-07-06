@@ -15,6 +15,42 @@ class List extends Component {
         };
     }
 
+    componentDidMount() {
+        document.addEventListener('keydown', function (event) {
+            switch(event.keyCode){
+                case 46:
+                case 8:
+                    this.deleteItems();
+                    break;
+                case 37:
+                    this.previous();
+                    break;
+                case 39:
+                    this.next();
+                    break;
+            }
+        }.bind(this));
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', function (event) {
+            switch(event.keyCode){
+                case 46:
+                case 8:
+                    this.deleteItems();
+                    break;
+                case 37:
+                    if(Number(this.props.match.params.id) === 1 )
+                    this.previous();
+                    break;
+                case 39:
+                    if(Number(this.props.match.params.id) === 2 )
+                    this.next();
+                    break;
+            }
+        }.bind(this));
+    }
+
     callAPI(pageNum) {
         if (this.state.lid !== pageNum) {
             fetch('http://localhost:9000/api/lists/' + pageNum)
@@ -22,8 +58,15 @@ class List extends Component {
                 .then((data) => {
                     this.setState({
                         apiResponse: data,
-                        lid: pageNum
-                    })
+                        lid: pageNum,
+                        checked: false
+                    });
+                    let checkboxes = document.getElementsByName('checkbox');
+                    checkboxes.forEach((box) => {
+                        if (box.checked) {
+                            box.checked = false;
+                        }
+                    });
                 });
         }
     }
@@ -33,9 +76,8 @@ class List extends Component {
     }
 
     next() {
-        const nextPage = Number(this.props.match.params.id) + 1;
-        this.props.history.push(nextPage + '')
-        this.callAPI(nextPage)
+        this.props.history.push('2')
+        this.callAPI(2)
     }
 
     createItem() {
