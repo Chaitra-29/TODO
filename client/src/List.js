@@ -16,41 +16,29 @@ class List extends Component {
     }
 
     componentDidMount() {
-        document.addEventListener('keydown', function (event) {
-            switch(event.keyCode){
-                case 46:
-                case 8:
-                    this.deleteItems();
-                    break;
-                case 37:
-                    this.previous();
-                    break;
-                case 39:
-                    this.next();
-                    break;
-                default: return;
-            }
-        }.bind(this));
+        document.addEventListener('keydown', this.keyboardMethods.bind(this));
     }
 
     componentWillUnmount() {
-        document.removeEventListener('keydown', function (event) {
-            switch(event.keyCode){
-                case 46:
-                case 8:
-                    this.deleteItems();
-                    break;
-                case 37:
-                    if(Number(this.props.match.params.id) === 1 )
-                    this.previous();
-                    break;
-                case 39:
-                    if(Number(this.props.match.params.id) === 2 )
-                    this.next();
-                    break;
-                default: return;
-            }
-        }.bind(this));
+        document.removeEventListener('keydown', this.keyboardMethods.bind(this));
+    }
+
+    keyboardMethods(event){
+        switch(event.keyCode){
+            case 46:
+            case 8:
+                this.deleteItems();
+                break;
+            case 37:
+                if(Number(this.props.match.params.id) === 2 )
+                this.previous();
+                break;
+            case 39:
+                if(Number(this.props.match.params.id) === 1 )
+                this.next();
+                break;
+            default: return;
+        }
     }
 
     callAPI(pageNum) {
